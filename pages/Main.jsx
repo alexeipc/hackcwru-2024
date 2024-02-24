@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, ScrollView} from "react-native";
+import { Text, View, StyleSheet, ScrollView, Image} from "react-native";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function getTypeDetail() {
@@ -81,7 +81,7 @@ const getColorByType = (type) => {
     case 2:
       return 'brown';
     case 3:
-      return 'pink';
+      return '#AA336A';
     default:
       return 'black'; 
   }
@@ -93,10 +93,22 @@ const RoundedBox = () => {
         <View style={styles.scoreBox}>
             <Text>Score:</Text>
             <View style={{flexDirection: 'row', alignItems: 'flex-end' }}>
-                <Text style={{color: 'green', fontSize: 40}}> {getScore()}</Text>
-                <Text style={{color: 'green'}}>{"   "+ getTypeDetail()[1] + "   "}</Text>
+                <Text style={{color: 'green', fontSize: 40}}> {getScore() + " "} </Text>
+                <Image source={require('../assets/environment-icon-png-14981.png')} style={{
+                                height: 20,
+                                width: 20,
+                            }}/>
+                <Text style={{color: 'green'}}>{getTypeDetail()[1] + "   "}</Text>
+                <Image source={require('../assets/dog-32-512.png')} style={{
+                                height: 20,
+                                width: 20,
+                            }}/>
                 <Text style={{color: 'brown'}}>{getTypeDetail()[2] + "   "}</Text>
-                <Text style={{color: 'pink'}}>{getTypeDetail()[3] + "   "}</Text>
+                <Image source={require('../assets/pill-512.png')} style={{
+                                height: 15,
+                                width: 15,
+                            }}/>
+                <Text style={{color: '#AA336A'}}>{" "+getTypeDetail()[3] + "   "}</Text>
             </View>
             
         </View>
