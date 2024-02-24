@@ -8,8 +8,20 @@ import Checkbox from "expo-checkbox"
 import Button from './Button';
 
 const Signup = ({ navigation }) => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [phoneNumber, setPhoneNumber] = useState('');
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+
+    const handleSignup = () => {
+        // Here you can perform any login-related actions, such as sending the credentials to a server
+        console.log('Email:', email);
+        console.log('Password:', password);
+        console.log('Phone Number:', phoneNumber)
+    };
+
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
             <View style={{ flex: 1, marginHorizontal: 22 }}>
@@ -49,6 +61,7 @@ const Signup = ({ navigation }) => {
                         <TextInput
                             placeholder='Enter your email address'
                             placeholderTextColor={COLORS.black}
+                            onChangeText={setEmail}
                             keyboardType='email-address'
                             style={{
                                 width: "100%"
@@ -90,6 +103,7 @@ const Signup = ({ navigation }) => {
                         <TextInput
                             placeholder='Enter your phone number'
                             placeholderTextColor={COLORS.black}
+                            onChangeText={setPhoneNumber}
                             keyboardType='numeric'
                             style={{
                                 width: "80%"
@@ -119,6 +133,7 @@ const Signup = ({ navigation }) => {
                             placeholder='Enter your password'
                             placeholderTextColor={COLORS.black}
                             secureTextEntry={isPasswordShown}
+                            onChangeText={setPassword}
                             style={{
                                 width: "100%"
                             }}
@@ -160,6 +175,7 @@ const Signup = ({ navigation }) => {
                 <Button
                     title="Sign Up"
                     filled
+                    onPress = {handleSignup}
                     style={{
                         marginTop: 18,
                         marginBottom: 4,

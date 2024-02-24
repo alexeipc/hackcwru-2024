@@ -7,8 +7,17 @@ import Checkbox from "expo-checkbox"
 import Button from './Button';
 
 const Login = ({ navigation }) => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     const [isPasswordShown, setIsPasswordShown] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    
+    const handleLogin = () => {
+        // Here you can perform any login-related actions, such as sending the credentials to a server
+        console.log('Email:', email);
+        console.log('Password:', password);
+    };
     
     return (
         <View style={{ flex: 1, backgroundColor: COLORS.white }}>
@@ -50,6 +59,7 @@ const Login = ({ navigation }) => {
                             placeholder='Enter your email address'
                             placeholderTextColor={COLORS.black}
                             keyboardType='email-address'
+                            onChangeText={setEmail}
                             style={{
                                 width: "100%"
                             }}
@@ -78,6 +88,7 @@ const Login = ({ navigation }) => {
                             placeholder='Enter your password'
                             placeholderTextColor={COLORS.black}
                             secureTextEntry={isPasswordShown}
+                            onChangeText={setPassword}
                             style={{
                                 width: "100%"
                             }}
@@ -113,12 +124,13 @@ const Login = ({ navigation }) => {
                         color={isChecked ? COLORS.primary : undefined}
                     />
 
-                    <Text>Remenber Me</Text>
+                    <Text>Remember Me</Text>
                 </View>
 
                 <Button
                     title="Login"
                     filled
+                    onPress={handleLogin}
                     style={{
                         marginTop: 18,
                         marginBottom: 4,
