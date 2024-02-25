@@ -87,7 +87,7 @@ export default Main = () => {
 
     function getScore() {
         var organization = organizations;
-        return organization.length * 123 + parseInt(getTotalDonated() * 23);
+        return organization.length * 123 + parseInt(getTotalDonated());
     }
 
     function getTotalDonated() {
@@ -187,11 +187,11 @@ export default Main = () => {
                 
                 <View style={{marginBottom: 30, marginTop: -30}}>
                     <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == item.id}>
-                        <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
+                        <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.3)' }]}>
                             
                             <View style={styles.modalView}>
                                 <Popup id={item.name}/>
-                                <TextInput placeholder='Donate Now!!' style={styles.input} onChangeText={setDonateInput} />
+                                <TextInput placeholder='Donate!!' style={styles.input} onChangeText={setDonateInput} />
                                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                                     <Pressable onPress={donateInput} style = {[styles.button, styles.buttonDonate]}>
                                         <Text>Donate</Text>

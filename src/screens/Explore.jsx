@@ -1,8 +1,14 @@
 import React, { useState } from 'react'
 import { TextInput } from 'react-native'
-import { StyleSheet, Text, View, Image, Linking, TouchableOpacity, FlatList} from 'react-native'
+import { StyleSheet, Text, View, Image, Linking, TouchableOpacity, FlatList, Modal, Pressable } from 'react-native'
+import { FIREBASE_DB, FIREBASE_AUTH } from '../config/firebase'
+import Popup from '../components/Popup'
 
 export default Explore = () => {
+    const [displayProfile, setDisplayProfile] = useState(false);
+    const [currentChooseId, setCurrentChooseId] = useState(0);
+
+
   const data = [
     { id: 1, image: 'data:image/jpeg;base64,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', username: 'Red Cross', points: 'Earn 💊', description: "The American Red Cross, also known as the American National Red Cross, is a nonprofit humanitarian organization that provides emergency assistance, disaster relief, and disaster preparedness education in the United States.", link: 'https://www.redcross.org/donate/donation.html/?cid=donation_brand&med=cpc&source=google&scode=RSG00000E017&gad_source=1&gclid=Cj0KCQiAxOauBhCaARIsAEbUSQQa2eNm9JyPYFxlHpIgL9R2-tOhEKCWPALw8kdG3XOqkLdjiHaV6e4aAs_VEALw_wcB&gclsrc=aw.ds'},
     { id: 2, image: 'https://assets.tiltify.com/uploads/cause/avatar/419/blob-321b36c6-1311-4476-b6ae-47446e9842fd.png', username: 'Feeding America', points: 'Earn 💊', description: 'Feeding America is a United States–based non-profit organization that is a nationwide network of more than 200 food banks that feed more than 46 million people through food pantries, soup kitchens, shelters, and other community-based agencies.', link: 'https://give.feedingamerica.org/xr7J45zwTku9ZuH4ritfLg2?s_src=Y24XP2H1Y&utm_source=google&utm_medium=cpc&utm_content=brand&utm_campaign=paid&s_subsrc=c&s_keyword=feeding%20america%20donation&gad_source=1&gclid=Cj0KCQiA5-uuBhDzARIsAAa21T_C5ov3OU69B1UxvCCJ5exrzeARVRcQ21-95P9T2SfXV7ALaHe5cssaAlfdEALw_wcB&gclsrc=aw.ds' },
@@ -28,7 +34,70 @@ export default Explore = () => {
     Linking.openURL(link);
   };
 
+
+  const [donateInput_, setDonateInput] = useState();
+  const donateInput = async () => {
+    const donatedAmount = parseFloat(donateInput_);
+  
+    try {
+        const currentUser = FIREBASE_AUTH.currentUser.email;
+        const orgId = currentChooseId;
+  
+        // Use Firebase Firestore to retrieve the document
+        const q = query(collection(FIREBASE_DB, 'UserOrganizationRelationship'), where('orgID', '==', orgId));
+        const querySnapshot = await getDocs(q);
+  
+        let orgDoc;
+        querySnapshot.forEach((doc) => {
+            orgDoc = doc;
+        });
+  
+        console.log(orgDoc.data());
+  
+        if (orgDoc.exists()) {
+            const userData = orgDoc.data();
+            const updatedDonatedAmount = parseFloat(userData.donatedAmount) + donatedAmount;
+  
+        // Use setDoc to update the document
+            await setDoc(doc(FIREBASE_DB, 'UserOrganizationRelationship', orgDoc.id), { donatedAmount: updatedDonatedAmount }, { merge: true });
+  
+            console.log(`Donation successful: $${donatedAmount}`);
+        } else {
+            console.error('Organization not found.');
+        }
+        }   catch (e) {
+            console.error('Error donating:', e);
+        }
+  
+        // Reset the state and close the profile modal
+        setDonateInput('');
+        setDisplayProfile(false);
+        setUseEffecTrigger(!useEffectTrigger);
+  };
+
+  const modalPopup = (item) => {
+    <Modal transparent={true} animationType="slide" visible = {displayProfile}>
+            <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.3)' }]}>
+                
+                <View style={styles.modalView}>
+                    <Popup id={item.username}/>
+                    <TextInput placeholder='Donate!!' style={styles.input} onChangeText={setDonateInput} />
+                    <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <Pressable onPress={donateInput} style = {[styles.button, styles.buttonDonate]}>
+                            <Text>Donate</Text>
+                        </Pressable>
+                        <Pressable style = {[styles.button, styles.buttonClose]} onPress={() => setDisplayProfile(!displayProfile)}>
+                            <Text> {" Close "} </Text>
+                        </Pressable>
+                    </View>
+                </View>
+            </View>
+            
+        </Modal>
+  }
+
   return (
+    
     <View style={styles.container}>
         <TextInput style={styles.searchBar} placeholder={"Search..."}>
         </TextInput>
@@ -40,16 +109,21 @@ export default Explore = () => {
           renderItem={({ item }) => (
             <TouchableOpacity onPress={() => toggleDropdown(item.id)}>
               <View style={styles.box}>
-                <Image style={styles.image} source={{ uri: item.image }}/>
-                <Text style={styles.username}>{item.username}</Text>
+                <View style={{flexDirection: 'row'}}>
+                    <Image style={styles.image} source={{ uri: item.image }}/>
+                    <Text style={styles.username}>{item.username}</Text>
+                </View>
                 <Text style={styles.points}>{item.points}</Text>
               </View>
               {dropdownState[item.id] && (
                 <View style={styles.dropdown}>
                   {/* Dropdown menu content */}
                   <Text>{item.description}</Text>
+                  <TouchableOpacity style={styles.button} onPress={() => modalPopup(item)}>
+                  <Text style={styles.buttonText}>Donate!</Text>
+                    </TouchableOpacity>
                   <TouchableOpacity style={styles.button} onPress={() => handlePress(item.link)}>
-                  <Text style={styles.buttonText}>Donate</Text>
+                  <Text style={styles.buttonText}>More Info</Text>
                     </TouchableOpacity>
                 </View>
               )}
@@ -97,8 +171,8 @@ const styles = StyleSheet.create({
     width: '100%'
   },
   flatListContent: {
-    justifyContent: 'center',
-    alignItems: 'center'
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   box: {
     minWidth: '90%',
@@ -114,6 +188,7 @@ const styles = StyleSheet.create({
       width: 0,
     },
     elevation: 2,
+    justifyContent: 'space-between'
   },
   image: {
     width: 60,
@@ -130,7 +205,7 @@ const styles = StyleSheet.create({
     color: '#000000',
     fontSize: 12,
     alignSelf: 'center',
-    marginLeft: 30,
+    marginRight: 10
   },
   dropdown: {
     backgroundColor: '#FFFFFF',
