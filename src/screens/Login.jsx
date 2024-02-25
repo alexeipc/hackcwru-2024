@@ -63,13 +63,13 @@ const Login = ({ navigation }) => {
             marginVertical: 12,
             color: COLORS.black
           }}>
-            Hi Welcome Back ! 👋
+            Welcome Back! 👋
           </Text>
 
           <Text style={{
             fontSize: 16,
             color: COLORS.black
-          }}>Hello again you have been missed!</Text>
+          }}>Glad to see you here (again).</Text>
         </View>
 
         <View style={{ marginBottom: 12 }}>

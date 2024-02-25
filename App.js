@@ -2,25 +2,50 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { User, onAuthStateChanged } from "@firebase/auth";
+import { onAuthStateChanged } from "@firebase/auth";
 import { FIREBASE_AUTH } from "./src/config/firebase";
 
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register"
 import Profile from "./src/screens/Profile"
+import Explore from "./src/screens/Explore"
+import Socials from "./src/screens/Socials"
 
 const OutsideStack = createNativeStackNavigator();
-const InsideStack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 function InsideLayout() {
   return(
-    <InsideStack.Navigator initialRouteName="Profile">
-      {/* <InsideStack.Screen name="Feed"/ component={Feed}> */}
-      {/* <InsideStack.Screen name="Socials"/ component={Socials}> */}
-      <InsideStack.Screen name="Profile" component={Profile}/>
-    </InsideStack.Navigator>
+    <Tab.Navigator
+      initialRouteName="Home"
+      screenOptions={({route}) => ({
+      tabBarIcon: ({focused, color, size}) => {
+        let iconName;
+        let rn = route.name;
+
+        if(rn === "Home") {
+          iconName = focused ? 'home' : 'home-outline';
+        } else if(rn === "Explore") {
+          iconName = focused ? 'search-sharp' : 'search-outline';
+        } else if(rn === "Socials") {
+          iconName = focused ? 'people-sharp' : 'people-outline';
+        }
+
+        return <Ionicons name={iconName} size={size} color={color}/>
+      },
+      tabBarActiveTintColor: 'green',
+      tabBarInactiveTintColor: 'grey',
+      tabBarLabelStyle: { paddingBottom: 10, fontSize: 10 },
+      tabBarStyle: { padding: 10, height: 70 }
+    })}>
+
+      <Tab.Screen name="Explore" component={Explore}/>
+      <Tab.Screen name="Home" component={Profile}/>
+      <Tab.Screen name="Socials" component={Socials}/>
+    </Tab.Navigator>
   )
 }
 
