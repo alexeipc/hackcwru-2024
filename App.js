@@ -5,23 +5,23 @@ import { User, onAuthStateChanged } from "@firebase/auth";
 import { FIREBASE_AUTH } from "./src/config/firebase";
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register"
-import Home from "./src/screens/Home"
+import Profile from "./src/screens/Profile"
 
 const OutsideStack = createNativeStackNavigator();
 const InsideStack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
 
-function insideLayout() {
+function InsideLayout() {
   return(
-    <InsideStack.Navigator>
+    <InsideStack.Navigator initialRouteName="Profile">
       {/* <InsideStack.Screen name="Feed"/ component={Feed}> */}
       {/* <InsideStack.Screen name="Socials"/ component={Socials}> */}
-      <InsideStack.Screen name="Home" component={Home}/>
+      <InsideStack.Screen name="Profile" component={Profile}/>
     </InsideStack.Navigator>
   )
 }
 
-function loginLayout() {
+function LoginLayout() {
   return(
     <LoginStack.Navigator initialRouteName="Login">
       <LoginStack.Screen name="Login" component={Login} options={{headerShown: true}}/>
@@ -41,11 +41,11 @@ function App() {
 
   return(
     <NavigationContainer>
-      <OutsideStack.Navigator initialRouteName="Login">
+      <OutsideStack.Navigator initialRouteName="Login-Register">
         {user ? (
-          <OutsideStack.Screen name="Home" component={insideLayout} options={{headerShown: false}}/>
+          <OutsideStack.Screen name="Profile" component={InsideLayout} options={{headerShown: false}}/>
         ) : (
-          <OutsideStack.Screen name="Login" component={loginLayout} options={{headerShown: false}}/>
+          <OutsideStack.Screen name="Login-Register" component={LoginLayout} options={{headerShown: false}}/>
         )}
       </OutsideStack.Navigator>
     </NavigationContainer>

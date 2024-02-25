@@ -27,7 +27,7 @@ const getProjectPicture = (id) => {
         <Image source={require('../../assets/TSP2B1-3.jpeg')} style={{
                                 height: 100,
                                 width:  100,
-                                borderRadius: '50%'
+                                borderRadius: 50
                             }}></Image>
     )
 }
@@ -54,7 +54,7 @@ const getImgLinkByType = (type) => {
   }
 };
 
-const ProfilePage = (props) => {
+const Popup = (props) => {
     const organization = getOrganization(props.id);
     
     return (
@@ -79,4 +79,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default ProfilePage;
+export default Popup;

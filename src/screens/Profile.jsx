@@ -1,6 +1,11 @@
-import { Text, View, StyleSheet, ScrollView, Image, Modal, Pressable} from "react-native";
-import ProfilePage from './PopUpComponents/profilePage.jsx'
-import { useState } from "react";
+import React, { useState } from 'react'
+import { Text, View, FlatList, ScrollView, Image, Modal, Pressable} from "react-native";
+
+import Popup from '../components/Popup'
+import Button from '../components/Button'
+
+import { FIREBASE_AUTH } from '../config/firebase'
+import styles from '../css/ProfileStyle'
 
 function getTypeDetail() {
     var organization = getDonatedOrganization();
@@ -31,6 +36,68 @@ function getTotalDonated() {
     return sum;
 }
 
+const DATA = [
+    {
+      id: 1,
+      name: "Planet Tree",
+      type: 1,
+      donnated: 10,
+  }, 
+  {
+      id: 1.5,
+      name: "Planet Tree",
+      type: 1,
+      donnated: 43,
+  },
+  {
+      id: 2,
+      name: "Planet Animal",
+      type: 2,
+      donnated: 12,
+  }, {
+      id: 3,
+      name: "Save Children",
+      type: 3,
+      donnated: 43,
+  },
+  {
+      id: 4,
+      name: "Planet Tree 1",
+      type: 1,
+      donnated: 10,
+  }, {
+      id: 5,
+      name: "Planet Animal 1",
+      type: 2,
+      donnated: 15,
+  }, {
+      id: 6,
+      name: "Save Children 1",
+      type: 3,
+      donnated: 25,
+  },
+  {
+      id: 7,
+      name: "Planet Tree 2", 
+      type: 1,
+      donnated: 3,
+  }, {
+      id: 8,
+      name: "Planet Animal 2",
+      type: 2,
+      donnated: 23,
+  }, {
+      id: 9,
+      name: "Save Children 1",
+      type: 3,
+      donnated: 4,
+  },{
+    id: 10,
+    name: "Save Children 2",
+    type: 3,
+    donnated: 4,
+  }
+];
 function getDonatedOrganization() {
     var arr = [{
         id: 1,
@@ -86,7 +153,12 @@ function getDonatedOrganization() {
         name: "Save Children 1",
         type: 3,
         donnated: 4,
-    },];
+    },{
+      id: 10,
+      name: "Save Children 2",
+      type: 3,
+      donnated: 4,
+  }];
 
     return arr;
 }
@@ -104,27 +176,64 @@ const getColorByType = (type) => {
   }
 };
 
-const RoundedBox = () => {
+const Item = (value, displayProfile, setDisplayProfile, currentChooseId, setCurrentChooseId) => {
+  return(
+<View>
+  <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == value.id}>
+      <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
+          
+          <View style={styles.modalView}>
+              <Popup id={currentChooseId}/>
+
+              <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                  <Pressable style = {[styles.button, styles.buttonDonate]}>
+                      <Text>Donate</Text>
+                  </Pressable>
+                  <Pressable style = {[styles.button, styles.buttonClose]} onPress={() => setDisplayProfile(!displayProfile)}>
+                      <Text> {" Close "} </Text>
+                  </Pressable>
+              </View>
+              
+          </View>
+          
+      </View>
+      
+  </Modal>
+  <Pressable onPress={() => {
+      setDisplayProfile(true);
+      setCurrentChooseId(value.id);
+      }} style={styles.organizationBox}>
+      
+      <Text> {value.name} </Text>
+      <View style={{flex: 1, alignItems: 'flex-end'}}>
+          <Text style={{color: getColorByType(value.type)}}> $ {value.donnated} </Text>
+      </View>
+  </Pressable>
+
+</View>);
+}
+
+export default Main = () => {
     const [displayProfile, setDisplayProfile] = useState(false);
     const [currentChooseId, setCurrentChooseId] = useState(0);
 
     return (
-    <View>
+    <ScrollView>
         <View style={styles.scoreBox}>
             <Text>Your Contribution:</Text>
             <View style={{flexDirection: 'row', alignItems: 'flex-end' }}>
                 <Text style={{color: 'green', fontSize: 40}}> {getScore() + " "} </Text>
-                <Image source={require('../assets/environment-icon-png-14981.png')} style={{
+                <Image source={require('../../assets/environment-icon-png-14981.png')} style={{
                                 height: 20,
                                 width: 20,
                             }}/>
                 <Text style={{color: 'green'}}>{getTypeDetail()[1] + "   "}</Text>
-                <Image source={require('../assets/dog-32-512.png')} style={{
+                <Image source={require('../../assets/dog-32-512.png')} style={{
                                 height: 20,
                                 width: 20,
                             }}/>
                 <Text style={{color: 'brown'}}>{getTypeDetail()[2] + "   "}</Text>
-                <Image source={require('../assets/pill-512.png')} style={{
+                <Image source={require('../../assets/pill-512.png')} style={{
                                 height: 15,
                                 width: 15,
                             }}/>
@@ -145,15 +254,18 @@ const RoundedBox = () => {
         <Text style={{width: '80%', alignSelf: 'center', marginTop: 10, paddingBottom: 10, zIndex: 100}}>
             Detail of Your Contribution:
         </Text>
-        <ScrollView style={styles.organizationContainter}>
+        {/* style={styles.organizationContainter} */}
+        {/* <FlatList data={DATA} renderItem={({item}) => <Item title={item.title} />}/>
+         */}
+         <ScrollView style={styles.organizationContainter}>
             
             {getDonatedOrganization().map((value, index) => (
                 <View>
-                    <Modal transparent={true} animationType="slide" visible = {displayProfile}>
+                    <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == value.id}>
                         <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
                             
                             <View style={styles.modalView}>
-                                <ProfilePage id={currentChooseId}/>
+                                <Popup id={currentChooseId}/>
 
                                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
                                     <Pressable style = {[styles.button, styles.buttonDonate]}>
@@ -163,9 +275,7 @@ const RoundedBox = () => {
                                         <Text> {" Close "} </Text>
                                     </Pressable>
                                 </View>
-                                
                             </View>
-                            
                         </View>
                         
                     </Modal>
@@ -185,128 +295,10 @@ const RoundedBox = () => {
             ))}
             
         </ScrollView>
-    </View>
-    
+        <View>
+          <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign Out"/>
+          <Text>hi</Text>
+        </View>
+    </ScrollView>
   );
 };
-
-export default function Main() {
-  return (
-    <View>
-        < RoundedBox />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  scoreBox: {
-    paddingLeft: 30,
-    paddingTop: 10,
-
-    width: '90%', // Set your desired width
-    height: 100, // Set your desired height
-    backgroundColor: 'white',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5, // For Android
-    marginVertical: 20, // Adjust margin as needed
-    alignSelf: 'center',
-    marginTop: 30,
-    marginLeft: 3,
-    marginRight: 3,
-  },
-  organizationBox: {
-    flexDirection: 'row',
-    padding: 10,
-    width: '90%', // Set your desired width
-    height: 40, // Set your desired height
-    backgroundColor: 'white',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5, // For Android
-    marginVertical: -15,
-    alignSelf: 'center',
-    marginTop: 30,
-    marginLeft: 3,
-    marginRight: 3,
-  },
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: 20,
-    width: '90%',
-  },
-  organizationContainter: {
-    margin: 5,
-    marginTop: 0,
-    zIndex: -100,
-    overflow: 'hidden',
-  },
-  bankAndOrganizationBox: {
-    padding: 30,
-    flex: 1,
-    height: 100,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.3,
-    shadowRadius: 4,
-    elevation: 5, // For Android
-    marginLeft: 3,
-    marginRight: 3,
-  },
-  fixedBox: {
-    width: '100%', // Set your desired width
-    height: 80, // Set your desired height
-    backgroundColor: 'grey',
-    marginVertical: 20, // Adjust margin as needed
-    alignSelf: 'center',
-    marginTop: 30,
-    marginLeft: 3,
-    marginRight: 3,
-    bottom: 50,
-    position: 'absolute',
-  },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 10,
-    padding: 35,
-    height: 400,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
-  },
-  centeredView: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 22,
-  },
-  button: {
-    borderRadius: 10,
-    padding: 10,
-    elevation: 2,
-    margin: 10,
-  },
-  buttonDonate: {
-    backgroundColor: 'green',
-  },
-  buttonClose: {
-    backgroundColor: 'red',
-  },
-});
