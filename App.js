@@ -15,8 +15,6 @@ import Socials from "./src/screens/Socials"
 import Feed from "./src/screens/Feed"
 import Settings from "./src/screens/Settings"
 
-
-
 const OutsideStack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
