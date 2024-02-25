@@ -1,5 +1,6 @@
-import { Text, View, StyleSheet, ScrollView, Image} from "react-native";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Text, View, StyleSheet, ScrollView, Image, Modal, Pressable} from "react-native";
+import ProfilePage from './PopUpComponents/profilePage.jsx'
+import { useState } from "react";
 
 function getTypeDetail() {
     var organization = getDonatedOrganization();
@@ -32,40 +33,49 @@ function getTotalDonated() {
 
 function getDonatedOrganization() {
     var arr = [{
+        id: 1,
         name: "Planet Tree",
         type: 1,
         donnated: 10,
     }, {
+        id: 2,
         name: "Planet Animal",
         type: 2,
         donnated: 12,
     }, {
+        id: 3,
         name: "Save Children",
         type: 3,
         donnated: 43,
     },
     {
+        id: 4,
         name: "Planet Tree 1",
         type: 1,
         donnated: 10,
     }, {
+        id: 5,
         name: "Planet Animal 1",
         type: 2,
         donnated: 15,
     }, {
+        id: 6,
         name: "Save Children 1",
         type: 3,
         donnated: 25,
     },
     {
+        id: 7,
         name: "Planet Tree 2", 
         type: 1,
         donnated: 3,
     }, {
+        id: 8,
         name: "Planet Animal 2",
         type: 2,
         donnated: 23,
     }, {
+        id: 9,
         name: "Save Children 1",
         type: 3,
         donnated: 4,
@@ -88,7 +98,10 @@ const getColorByType = (type) => {
 };
 
 const RoundedBox = () => {
-  return (
+    const [displayProfile, setDisplayProfile] = useState(false);
+    const [currentChooseId, setCurrentChooseId] = useState(0);
+
+    return (
     <View>
         <View style={styles.scoreBox}>
             <Text>Score:</Text>
@@ -124,12 +137,40 @@ const RoundedBox = () => {
         </View>
         <ScrollView style={styles.organizationContainter}>
             {getDonatedOrganization().map((value, index) => (
-                <View key={index} style={styles.organizationBox}>
-                    <Text> {value.name} </Text>
-                    <View style={{flex: 1, alignItems: 'flex-end'}}>
-                        <Text style={{color: getColorByType(value.type)}}> $ {value.donnated} </Text>
-                    </View>
+                <View>
+                    <Modal transparent={true} animationType="slide" visible = {displayProfile}>
+                        <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
+                            
+                            <View style={styles.modalView}>
+                                <ProfilePage id={currentChooseId}/>
+
+                                <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
+                                    <Pressable style = {[styles.button, styles.buttonDonate]}>
+                                        <Text>Donate</Text>
+                                    </Pressable>
+                                    <Pressable style = {[styles.button, styles.buttonClose]} onPress={() => setDisplayProfile(!displayProfile)}>
+                                        <Text> {" Close "} </Text>
+                                    </Pressable>
+                                </View>
+                                
+                            </View>
+                            
+                        </View>
+                        
+                    </Modal>
+                    <Pressable onPress={() => {
+                        setDisplayProfile(true);
+                        setCurrentChooseId(value.id);
+                        }} style={styles.organizationBox}>
+                        
+                        <Text> {value.name} </Text>
+                        <View style={{flex: 1, alignItems: 'flex-end'}}>
+                            <Text style={{color: getColorByType(value.type)}}> $ {value.donnated} </Text>
+                        </View>
+                    </Pressable>
+
                 </View>
+                
             ))}
             
         </ScrollView>
@@ -219,5 +260,40 @@ const styles = StyleSheet.create({
     marginRight: 3,
     bottom: 50,
     position: 'absolute',
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    height: 400,
+    width: '80%',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  button: {
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2,
+    margin: 10,
+  },
+  buttonDonate: {
+    backgroundColor: 'green',
+  },
+  buttonClose: {
+    backgroundColor: 'red',
   },
 });
