@@ -114,5 +114,13 @@ export default styles = StyleSheet.create({
   },
   buttonClose: {
     backgroundColor: 'red',
-  }
+  },
+  input: {
+      height: 40,
+      width: 110,
+      borderColor: 'gray',
+      borderWidth: 1,
+      marginBottom: 10,
+      paddingHorizontal: 10,
+   },
 });

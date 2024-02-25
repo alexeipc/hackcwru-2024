@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, ScrollView, Text, View, FlatList, Image, Modal, Pressable} from "react-native";
+import { Button, ScrollView, Text, View, FlatList, Image, Modal, Pressable, TextInput} from "react-native";
 
 import Popup from '../components/Popup'
 
@@ -7,7 +7,7 @@ import { FIREBASE_AUTH } from '../config/firebase'
 import styles from '../css/ProfileStyle'
 
 import { FIREBASE_DB } from '../config/firebase';
-import { collection, doc, getDocs, getDoc, addDoc, where, query} from "firebase/firestore"; 
+import { collection, doc, getDocs, getDoc, addDoc, where, query, setDoc} from "firebase/firestore"; 
 
 
 const db = FIREBASE_DB;
@@ -34,88 +34,6 @@ function getBankAccountMoney() {
     return "100,000"
 }
 
-function getDonatedOrganization() {
-    var arr = [];
-    printAllOrganization().then(
-        (data) => {
-            data.forEach((doc) => {
-                var element = {};
-                element.id = doc.data().orgID;
-                element.donnated = doc.data().donatedAmmount;  
-                element.name = doc.data().name;
-                element.type = doc.data().type;
-                
-                arr.push(element)
-            })
-            //console.log(arr);
-        }
-    )
-
-    var arr1 = [{
-        id: 1,
-        name: "Planet Tree",
-        type: 1,
-        donnated: 10,
-    }, 
-    {
-        id: 1.5,
-        name: "Planet Tree",
-        type: 1,
-        donnated: 43,
-    },
-    {
-        id: 2,
-        name: "Planet Animal",
-        type: 2,
-        donnated: 12,
-    }, {
-        id: 3,
-        name: "Save Children",
-        type: 3,
-        donnated: 43,
-    },
-    {
-        id: 4,
-        name: "Planet Tree 1",
-        type: 1,
-        donnated: 10,
-    }, {
-        id: 5,
-        name: "Planet Animal 1",
-        type: 2,
-        donnated: 15,
-    }, {
-        id: 6,
-        name: "Save Children 1",
-        type: 3,
-        donnated: 25,
-    },
-    {
-        id: 7,
-        name: "Planet Tree 2", 
-        type: 1,
-        donnated: 3,
-    }, {
-        id: 8,
-        name: "Planet Animal 2",
-        type: 2,
-        donnated: 23,
-    }, {
-        id: 9,
-        name: "Save Children 1",
-        type: 3,
-        donnated: 4,
-    },{
-      id: 10,
-      name: "Save Children 2",
-      type: 3,
-      donnated: 4,
-  }];
-
-    return arr1;
-}
-
-
 const getColorByType = (type) => {
   switch (type) {
     case 1:
@@ -134,6 +52,7 @@ export default Main = () => {
     const [displayProfile, setDisplayProfile] = useState(false);
     const [currentChooseId, setCurrentChooseId] = useState(0);
     const [organizations, setOrganizations] = useState([]);
+    const [useEffectTrigger, setUseEffecTrigger] = useState(false);
     
 
     useEffect(() => {
@@ -153,7 +72,7 @@ export default Main = () => {
             setOrganizations(arr)
         }
         getData();
-    }, [])
+    }, [useEffectTrigger])
 
     function getTypeDetail() {
         var organization = organizations;
@@ -168,16 +87,58 @@ export default Main = () => {
 
     function getScore() {
         var organization = organizations;
-        return organization.length * 123;
+        return organization.length * 123 + parseInt(getTotalDonated() * 23);
     }
 
     function getTotalDonated() {
         var sum = 0;
         organizations.map((value, index) => {
-            sum += value.donnated;
+            sum += parseFloat(value.donnated);
         })
         return sum;
     }
+
+    
+    const [donateInput_, setDonateInput] = useState();
+    const donateInput = async () => {
+        const donatedAmount = parseFloat(donateInput_);
+
+        try {
+            const currentUser = FIREBASE_AUTH.currentUser.email;
+            const orgId = currentChooseId;
+
+            // Use Firebase Firestore to retrieve the document
+            const q = query(collection(FIREBASE_DB, 'UserOrganizationRelationship'), where('orgID', '==', orgId));
+            const querySnapshot = await getDocs(q);
+
+            let orgDoc;
+            querySnapshot.forEach((doc) => {
+                orgDoc = doc;
+            });
+
+            console.log(orgDoc.data());
+
+            if (orgDoc.exists()) {
+                const userData = orgDoc.data();
+                const updatedDonatedAmount = userData.donatedAmount + donatedAmount;
+
+            // Use setDoc to update the document
+                await setDoc(doc(FIREBASE_DB, 'UserOrganizationRelationship', orgDoc.id), { donatedAmount: updatedDonatedAmount }, { merge: true });
+
+                console.log(`Donation successful: $${donatedAmount}`);
+            } else {
+                console.error('Organization not found.');
+            }
+            }   catch (e) {
+                console.error('Error donating:', e);
+            }
+
+            // Reset the state and close the profile modal
+            setDonateInput('');
+            setDisplayProfile(false);
+            setUseEffecTrigger(!useEffectTrigger);
+    };
+
 
     return (
     <ScrollView>
@@ -229,10 +190,10 @@ export default Main = () => {
                         <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
                             
                             <View style={styles.modalView}>
-                                <Popup id={currentChooseId}/>
-
+                                <Popup id={item.name}/>
+                                <TextInput placeholder='Donate Now!!' style={styles.input} onChangeText={setDonateInput} />
                                 <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                                    <Pressable style = {[styles.button, styles.buttonDonate]}>
+                                    <Pressable onPress={donateInput} style = {[styles.button, styles.buttonDonate]}>
                                         <Text>Donate</Text>
                                     </Pressable>
                                     <Pressable style = {[styles.button, styles.buttonClose]} onPress={() => setDisplayProfile(!displayProfile)}>
