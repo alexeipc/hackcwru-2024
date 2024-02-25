@@ -120,7 +120,7 @@ export default Main = () => {
 
             if (orgDoc.exists()) {
                 const userData = orgDoc.data();
-                const updatedDonatedAmount = userData.donatedAmount + donatedAmount;
+                const updatedDonatedAmount = parseFloat(userData.donatedAmount) + donatedAmount;
 
             // Use setDoc to update the document
                 await setDoc(doc(FIREBASE_DB, 'UserOrganizationRelationship', orgDoc.id), { donatedAmount: updatedDonatedAmount }, { merge: true });
@@ -184,7 +184,7 @@ export default Main = () => {
             <FlatList
                 data={organizations}
                 renderItem={({item}) => (
-                    
+                
                 <View style={{marginBottom: 30, marginTop: -30}}>
                     <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == item.id}>
                         <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
