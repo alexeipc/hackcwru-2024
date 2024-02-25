@@ -45,6 +45,7 @@ export default styles = StyleSheet.create({
     width: '90%',
   },
   organizationContainter: {
+    minHeight: '100%',
     margin: 5,
     marginTop: 0,
     zIndex: -100,
