@@ -14,7 +14,7 @@ const Signup = ({ navigation }) => {
   const [password, setPassword] = useState('');
 
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [isPasswordShown, setIsPasswordShown] = useState(false);
+  const [hidePassword, setHidePassword] = useState(true);
   const [isChecked, setIsChecked] = useState(false);
 
   const [loading, setLoading] = useState(false);
@@ -143,7 +143,7 @@ const Signup = ({ navigation }) => {
             <TextInput
               placeholder='Enter your password'
               placeholderTextColor={COLORS.black}
-              secureTextEntry={isPasswordShown}
+              secureTextEntry={hidePassword}
               onChangeText={setPassword}
               style={{
                 width: "100%"
@@ -151,14 +151,14 @@ const Signup = ({ navigation }) => {
             />
 
             <TouchableOpacity
-              onPress={() => setIsPasswordShown(!isPasswordShown)}
+              onPress={() => setHidePassword(!hidePassword)}
               style={{
                 position: "absolute",
                 right: 12
               }}
             >
               {
-                isPasswordShown == true ? (
+                hidePassword ? (
                   <Ionicons name="eye-off" size={24} color={COLORS.black} />
                 ) : (
                   <Ionicons name="eye" size={24} color={COLORS.black} />
