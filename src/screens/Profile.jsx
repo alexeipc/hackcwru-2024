@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Text, View, FlatList, ScrollView, Image, Modal, Pressable} from "react-native";
+import { Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
 
 import Popup from '../components/Popup'
 import Button from '../components/Button'
