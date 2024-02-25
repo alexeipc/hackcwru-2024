@@ -1,4 +1,5 @@
 import { Button, Text, View, SafeAreaView, FlatList, StyleSheet } from "react-native";
+import { FIREBASE_AUTH } from "../config/firebase";
 
 const test = [
     {
