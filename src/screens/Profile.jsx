@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
+import { Button, ScrollView, Text, View, FlatList, Image, Modal, Pressable} from "react-native";
 
 import Popup from '../components/Popup'
 
@@ -180,7 +180,7 @@ export default Main = () => {
     }
 
     return (
-    <ScrollView style={{height: '100%'}}>
+    <ScrollView>
         <View style={styles.scoreBox}>
             <Text>Your Contribution:</Text>
             <View style={{flexDirection: 'row', alignItems: 'flex-end' }}>
@@ -213,17 +213,19 @@ export default Main = () => {
                 <Text style={{color: 'brown', fontSize: 20}}>  $ {getTotalDonated()}</Text>
             </View>
         </View>
-        <Text style={{width: '80%', alignSelf: 'center', marginTop: 10, paddingBottom: 10, zIndex: 100}}>
-            Detail of Your Contribution:
+        <Text style={{fontWeight: 'bold', fontSize: 16, textAlign: 'center', margin: 30, marginBottom: 15, zIndex: 100}}>
+            Your Contribution Details:
         </Text>
         {/* style={styles.organizationContainter} */}
         {/* <FlatList data={DATA} renderItem={({item}) => <Item title={item.title} />}/>
          */}
-         <ScrollView style={styles.organizationContainter}>
-            
-            {organizations.map((value, index) => (
-                <View>
-                    <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == value.id}>
+         <View>
+            <FlatList
+                data={organizations}
+                renderItem={({item}) => (
+                    
+                <View style={{marginBottom: 30, marginTop: -30}}>
+                    <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == item.id}>
                         <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
                             
                             <View style={styles.modalView}>
@@ -243,20 +245,18 @@ export default Main = () => {
                     </Modal>
                     <Pressable onPress={() => {
                         setDisplayProfile(true);
-                        setCurrentChooseId(value.id);
+                        setCurrentChooseId(item.id);
                         }} style={styles.organizationBox}>
                         
-                        <Text> {value.name} </Text>
+                        <Text> {item.name} </Text>
                         <View style={{flex: 1, alignItems: 'flex-end'}}>
-                            <Text style={{color: getColorByType(value.type)}}> $ {value.donnated} </Text>
+                            <Text style={{color: getColorByType(item.type)}}> $ {item.donnated} </Text>
                         </View>
                     </Pressable>
-
                 </View>
-                
-            ))}
-        </ScrollView>
-        
+            )}>
+            </FlatList>
+            </View>
     </ScrollView>
   );
 };

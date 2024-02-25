@@ -49,10 +49,13 @@ export default styles = StyleSheet.create({
     margin: 5,
     marginTop: 0,
     zIndex: -100,
-    overflow: 'visible'
+    justifyContent: 'space-between',
+    overflow: 'hidden'
   },
   bankAndOrganizationBox: {
-    padding: 30,
+    alignSelf: 'center',
+    textAlign: 'center',
+    padding: 20,
     flex: 1,
     height: 100,
     backgroundColor: 'white',

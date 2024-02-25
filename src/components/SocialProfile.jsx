@@ -2,23 +2,26 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 
 export default function SocialProfile(props) {
     const username = props.username;
-    let pfp = props.profilePicture;
+    let pfp = '../../assets/blank-profile.webp'
     const dateJoined = props.dateJoined;
     const orgs = props.organizations;
 
-    if(!pfp) {
-        pfp =  '../../assets/blank-profile.webp';
+    if(props.profilePicture) {
+        pfp = props.profilePicture;
     }
 
     return(
         <View style={styles.profileBox}>
-            <Image source={require(pfp)} style={{ height: 20,
-                                width: 20,
-                            }}/>
-            <Text style={styles.heading}>{username}</Text>
-            <Text>{dateJoined}</Text>
-            <Text>{org}</Text>
-            <Text>{body}</Text>
+            <View>
+                <Image source={require('../../assets/blank-profile.webp')} style={{ height: 40,
+                                    width: 40, margin: 10
+                                }}/>
+                </View>
+            <View>
+                <Text style={styles.heading}>{username}</Text>
+                <Text style={{marginRight: 60}}>Supports: {orgs[0]}, {orgs[1]}</Text>
+                <Text style={{color: 'grey'}}>Date Joined: {dateJoined}</Text>
+            </View>
         </View>
     )
 };
@@ -39,7 +42,8 @@ const styles = StyleSheet.create({
         marginLeft: 3,
         marginRight: 3,
         marginTop: 10,
-        marginBottom: 10
+        marginBottom: 10,
+        flexDirection: 'row'
     },
     heading: {
         padding: 2,

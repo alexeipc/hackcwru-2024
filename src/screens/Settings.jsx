@@ -12,11 +12,10 @@ const test = [
 export default function Settings() {
     return(
         <View style={styles.container}>
-            <Text>Settings!</Text>
-            <Text>There isn't much here but connecting the Plaid API</Text>
+            <Text style={{padding: 30, textAlign: 'center', fontSize: 30}}>GET OUTTTTT</Text>
 
             
-        <View style={{paddingTop: 30}}>
+        <View style={{padding: 30, marginTop: 100}}>
           <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign Out"/>
         </View>
         </View>
