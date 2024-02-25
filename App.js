@@ -1,8 +1,11 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { useState, useEffect } from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import { User, onAuthStateChanged } from "@firebase/auth";
 import { FIREBASE_AUTH } from "./src/config/firebase";
+
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register"
 import Profile from "./src/screens/Profile"
