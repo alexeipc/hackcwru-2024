@@ -1,21 +1,37 @@
-import React, { useState } from 'react'
-import { Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
+import Textbox from "../components/Textbox"
+import { Text, View, SafeAreaView, FlatList, StyleSheet } from "react-native";
 
-import Popup from '../components/Popup'
-import Button from '../components/Button'
-
-import { FIREBASE_AUTH } from '../config/firebase'
-import styles from '../css/ProfileStyle'
-
-import { FIREBASE_DB } from '../config/firebase';
-import { collection, addDoc } from "firebase/firestore"; 
-
-const db = FIREBASE_DB;
+const test = [
+    {
+        username: 'Beans',
+        profilePicture: '../../assets/blank-profile.webp',
+        organizations: [
+            'Bean scene',
+            'Bean scene 2'
+        ],
+        totalAmountDonated: 300,
+        dateJoined: 'November 3, 2023',
+    }
+];
 
 export default function Socials() {
     return(
-        <View>
-            <Button title="hjfha;sli"></Button>
+        <View style={styles.container}>
+            <FlatList
+                style={styles.list}
+                data={test}
+                renderItem={({item}) => <Textbox title={item.title} date={item.date} organization={item.organization} body={item.body}/>}>    
+            <Text style={{color: 'grey', textAlign: 'center', padding: 30}}>You've reached the end of your feed</Text>
+            </FlatList>
         </View>
     )
-}
+};
+
+const styles = StyleSheet.create({
+    container: {
+        textAlign: 'center'
+    },
+    list: {
+        textAlign: 'center'
+    }
+});
