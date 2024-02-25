@@ -1,34 +1,4 @@
 {
-  "expo": {
-    "name": "skibidi",
-    "slug": "skibidi",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "googleServicesFile": "./platforms/GoogleService-Info.plist",
-      "bundleIdentifier": "com.reactnativefirebase"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "googleServicesFile": "./platforms/google-services.json",
-      "package": "com.reactnativefirebase"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+    "name": "mainapp",
+    "version": "1.0.0"
 }
