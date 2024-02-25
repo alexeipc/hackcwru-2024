@@ -26,7 +26,8 @@ const getProjectPicture = (id) => {
     return (
         <Image source={require('../../assets/TSP2B1-3.jpeg')} style={{
                                 height: 100,
-                                width:  '100%',
+                                width:  100,
+                                borderRadius: '50%'
                             }}></Image>
     )
 }

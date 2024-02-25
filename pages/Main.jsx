@@ -37,7 +37,14 @@ function getDonatedOrganization() {
         name: "Planet Tree",
         type: 1,
         donnated: 10,
-    }, {
+    }, 
+    {
+        id: 1.5,
+        name: "Planet Tree",
+        type: 1,
+        donnated: 43,
+    },
+    {
         id: 2,
         name: "Planet Animal",
         type: 2,
@@ -104,7 +111,7 @@ const RoundedBox = () => {
     return (
     <View>
         <View style={styles.scoreBox}>
-            <Text>Score:</Text>
+            <Text>Your Contribution:</Text>
             <View style={{flexDirection: 'row', alignItems: 'flex-end' }}>
                 <Text style={{color: 'green', fontSize: 40}}> {getScore() + " "} </Text>
                 <Image source={require('../assets/environment-icon-png-14981.png')} style={{
@@ -135,7 +142,11 @@ const RoundedBox = () => {
                 <Text style={{color: 'brown', fontSize: 20}}>  $ {getTotalDonated()}</Text>
             </View>
         </View>
+        <Text style={{width: '80%', alignSelf: 'center', marginTop: 10, paddingBottom: 10, zIndex: 100}}>
+            Detail of Your Contribution:
+        </Text>
         <ScrollView style={styles.organizationContainter}>
+            
             {getDonatedOrganization().map((value, index) => (
                 <View>
                     <Modal transparent={true} animationType="slide" visible = {displayProfile}>
@@ -232,7 +243,9 @@ const styles = StyleSheet.create({
     width: '90%',
   },
   organizationContainter: {
-    margin: 10,
+    margin: 5,
+    marginTop: 0,
+    zIndex: -100,
     overflow: 'hidden',
   },
   bankAndOrganizationBox: {
@@ -264,7 +277,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: 'white',
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 35,
     height: 400,
     width: '80%',
@@ -285,7 +298,7 @@ const styles = StyleSheet.create({
     marginTop: 22,
   },
   button: {
-    borderRadius: 20,
+    borderRadius: 10,
     padding: 10,
     elevation: 2,
     margin: 10,
