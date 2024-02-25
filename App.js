@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { Platform } from 'react-native'
 
 import { User, onAuthStateChanged } from "@firebase/auth";
 import { FIREBASE_AUTH, FIREBASE_DB } from "./src/config/firebase";
@@ -20,6 +21,7 @@ const LoginStack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
 function InsideLayout() {
+  let h = (Platform.OS === 'ios') ? 90 : 60;
   return(
     <Tab.Navigator
       initialRouteName="Home"
@@ -45,9 +47,8 @@ function InsideLayout() {
       tabBarActiveTintColor: 'green',
       tabBarInactiveTintColor: 'grey',
       tabBarLabelStyle: { paddingBottom: 10, fontSize: 10 },
-      tabBarStyle: { padding: 10, height: 70 }
+      tabBarStyle: { padding: 10, height: h }
     })}>
-
       <Tab.Screen name="Explore" component={Explore}/>
       <Tab.Screen name="Feed" component={Feed}/>
       <Tab.Screen name="Home" component={Profile}/>
