@@ -4,5 +4,5 @@ Got some spare change and don't know what to do with it? Impactify is a cross-pl
 # How it works
 Create an account with Impactify and get started! The Home screen tracks money, businesses, and points. The user can navigate to the explore, feed, or social page to learn about nonprofit organizations and view the profiles of other users.
 
-# Repo link
-https://github.com/alexeipc/hackcwru-2024
+# Installion and Use
+This project uses `yarn` for its packages and dependencies. Run `sudo npm install -g yarn` if `yarn` does not exist, then `yarn install` to install the necessary dependencies for the project. To launch the app, run `npx expo start` to build and follow the subsequent instructions.
