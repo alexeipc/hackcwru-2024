@@ -7,6 +7,22 @@ import Button from '../components/Button'
 import { FIREBASE_AUTH } from '../config/firebase'
 import styles from '../css/ProfileStyle'
 
+import { FIREBASE_DB } from '../config/firebase';
+import { collection, addDoc } from "firebase/firestore"; 
+
+const db = FIREBASE_DB;
+
+try {
+  const docRef = await addDoc(collection(db, "users"), {
+    first: "Ada",
+    last: "Lovelace",
+    born: 1815
+  });
+  console.log("Document written with ID: ", docRef.id);
+} catch (e) {
+  console.error("Error adding document: ", e);
+}
+
 function getTypeDetail() {
     var organization = getDonatedOrganization();
 
@@ -36,68 +52,6 @@ function getTotalDonated() {
     return sum;
 }
 
-const DATA = [
-    {
-      id: 1,
-      name: "Planet Tree",
-      type: 1,
-      donnated: 10,
-  }, 
-  {
-      id: 1.5,
-      name: "Planet Tree",
-      type: 1,
-      donnated: 43,
-  },
-  {
-      id: 2,
-      name: "Planet Animal",
-      type: 2,
-      donnated: 12,
-  }, {
-      id: 3,
-      name: "Save Children",
-      type: 3,
-      donnated: 43,
-  },
-  {
-      id: 4,
-      name: "Planet Tree 1",
-      type: 1,
-      donnated: 10,
-  }, {
-      id: 5,
-      name: "Planet Animal 1",
-      type: 2,
-      donnated: 15,
-  }, {
-      id: 6,
-      name: "Save Children 1",
-      type: 3,
-      donnated: 25,
-  },
-  {
-      id: 7,
-      name: "Planet Tree 2", 
-      type: 1,
-      donnated: 3,
-  }, {
-      id: 8,
-      name: "Planet Animal 2",
-      type: 2,
-      donnated: 23,
-  }, {
-      id: 9,
-      name: "Save Children 1",
-      type: 3,
-      donnated: 4,
-  },{
-    id: 10,
-    name: "Save Children 2",
-    type: 3,
-    donnated: 4,
-  }
-];
 function getDonatedOrganization() {
     var arr = [{
         id: 1,

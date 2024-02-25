@@ -158,7 +158,7 @@ const Signup = ({ navigation }) => {
               }}
             >
               {
-                isPasswordShown == true ? (
+                isPasswordShown == false ? (
                   <Ionicons name="eye-off" size={24} color={COLORS.black} />
                 ) : (
                   <Ionicons name="eye" size={24} color={COLORS.black} />
