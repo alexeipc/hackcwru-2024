@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
+import React, { useEffect, useState } from 'react'
+import { Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
 
 import Popup from '../components/Popup'
 
@@ -7,52 +7,51 @@ import { FIREBASE_AUTH } from '../config/firebase'
 import styles from '../css/ProfileStyle'
 
 import { FIREBASE_DB } from '../config/firebase';
-import { collection, addDoc } from "firebase/firestore"; 
+import { collection, doc, getDocs, getDoc, addDoc, where, query} from "firebase/firestore"; 
+
 
 const db = FIREBASE_DB;
 
-try {
-  const docRef = await addDoc(collection(db, "users"), {
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815
-  });
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
+async function printAllOrganization() {
+  try {
+    
+    const currentUser = FIREBASE_AUTH.currentUser.email;
+    
+    const q = query(collection(FIREBASE_DB, 'UserOrganizationRelationship'), where (
+        "userEmail", "==", currentUser
+    ))
 
-function getTypeDetail() {
-    var organization = getDonatedOrganization();
-
-    var donatedType = [0,0,0,0,0,0,0,0];
-
-    organization.map(value => {
-        donatedType[value.type] += 123;
-    })
-    return donatedType;
-}
-
-function getScore() {
-    var organization = getDonatedOrganization();
-
-    return organization.length * 123;
+    const querySnapshot = await getDocs(q);
+    
+    return querySnapshot
+    
+  } catch (e) {
+     console.error("Error fetching data:", e);
+  }
 }
 
 function getBankAccountMoney() {
     return "100,000"
 }
 
-function getTotalDonated() {
-    var sum = 0;
-    getDonatedOrganization().map((value, index) => {
-        sum += value.donnated;
-    })
-    return sum;
-}
-
 function getDonatedOrganization() {
-    var arr = [{
+    var arr = [];
+    printAllOrganization().then(
+        (data) => {
+            data.forEach((doc) => {
+                var element = {};
+                element.id = doc.data().orgID;
+                element.donnated = doc.data().donatedAmmount;  
+                element.name = doc.data().name;
+                element.type = doc.data().type;
+                
+                arr.push(element)
+            })
+            //console.log(arr);
+        }
+    )
+
+    var arr1 = [{
         id: 1,
         name: "Planet Tree",
         type: 1,
@@ -113,8 +112,9 @@ function getDonatedOrganization() {
       donnated: 4,
   }];
 
-    return arr;
+    return arr1;
 }
+
 
 const getColorByType = (type) => {
   switch (type) {
@@ -129,49 +129,58 @@ const getColorByType = (type) => {
   }
 };
 
-const Item = (value, displayProfile, setDisplayProfile, currentChooseId, setCurrentChooseId) => {
-  return(
-<View>
-  <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == value.id}>
-      <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
-          
-          <View style={styles.modalView}>
-              <Popup id={currentChooseId}/>
-
-              <View style={{flexDirection: 'row', alignItems: 'flex-end'}}>
-                  <Pressable style = {[styles.button, styles.buttonDonate]}>
-                      <Text>Donate</Text>
-                  </Pressable>
-                  <Pressable style = {[styles.button, styles.buttonClose]} onPress={() => setDisplayProfile(!displayProfile)}>
-                      <Text> {" Close "} </Text>
-                  </Pressable>
-              </View>
-              
-          </View>
-          
-      </View>
-      
-  </Modal>
-  <Pressable onPress={() => {
-      setDisplayProfile(true);
-      setCurrentChooseId(value.id);
-      }} style={styles.organizationBox}>
-      
-      <Text> {value.name} </Text>
-      <View style={{flex: 1, alignItems: 'flex-end'}}>
-          <Text style={{color: getColorByType(value.type)}}> $ {value.donnated} </Text>
-      </View>
-  </Pressable>
-
-</View>);
-}
-
 export default Main = () => {
+
     const [displayProfile, setDisplayProfile] = useState(false);
     const [currentChooseId, setCurrentChooseId] = useState(0);
+    const [organizations, setOrganizations] = useState([]);
+    
+
+    useEffect(() => {
+        async function getData() {
+            data = await printAllOrganization();
+        
+                    arr = []
+                    data.forEach((doc) => {
+                        var element = {};
+                        element.id = doc.data().orgID;
+                        element.donnated = doc.data().donatedAmount;  
+                        element.name = doc.data().name;
+                        element.type = doc.data().type;
+                
+                        arr.push(element)
+                    })
+            setOrganizations(arr)
+        }
+        getData();
+    }, [])
+
+    function getTypeDetail() {
+        var organization = organizations;
+
+        var donatedType = [0,0,0,0,0,0,0,0];
+
+        organization.map(value => {
+            donatedType[value.type] += 123;
+        })
+        return donatedType;
+    }
+
+    function getScore() {
+        var organization = organizations;
+        return organization.length * 123;
+    }
+
+    function getTotalDonated() {
+        var sum = 0;
+        organizations.map((value, index) => {
+            sum += value.donnated;
+        })
+        return sum;
+    }
 
     return (
-    <ScrollView>
+    <ScrollView style={{height: '100%'}}>
         <View style={styles.scoreBox}>
             <Text>Your Contribution:</Text>
             <View style={{flexDirection: 'row', alignItems: 'flex-end' }}>
@@ -212,7 +221,7 @@ export default Main = () => {
          */}
          <ScrollView style={styles.organizationContainter}>
             
-            {getDonatedOrganization().map((value, index) => (
+            {organizations.map((value, index) => (
                 <View>
                     <Modal transparent={true} animationType="slide" visible = {displayProfile && currentChooseId == value.id}>
                         <View style= {[styles.centeredView, { backgroundColor: 'rgba(0, 0, 0, 0.4)' }]}>
@@ -251,6 +260,7 @@ export default Main = () => {
         <View style={{paddingTop: 30}}>
           <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign Out"/>
         </View>
+        
     </ScrollView>
   );
 };

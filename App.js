@@ -4,8 +4,8 @@ import { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { onAuthStateChanged } from "@firebase/auth";
-import { FIREBASE_AUTH } from "./src/config/firebase";
+import { User, onAuthStateChanged } from "@firebase/auth";
+import { FIREBASE_AUTH, FIREBASE_DB } from "./src/config/firebase";
 
 import Login from "./src/screens/Login";
 import Register from "./src/screens/Register"
@@ -14,6 +14,8 @@ import Explore from "./src/screens/Explore"
 import Socials from "./src/screens/Socials"
 import Feed from "./src/screens/Feed"
 import Settings from "./src/screens/Settings"
+
+
 
 const OutsideStack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
