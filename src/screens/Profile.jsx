@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import { Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
+import { Button, Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
 
 import Popup from '../components/Popup'
-import Button from '../components/Button'
 
 import { FIREBASE_AUTH } from '../config/firebase'
 import styles from '../css/ProfileStyle'
@@ -249,9 +248,8 @@ export default Main = () => {
             ))}
             
         </ScrollView>
-        <View>
+        <View style={{paddingTop: 30}}>
           <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign Out"/>
-          <Text>hi</Text>
         </View>
     </ScrollView>
   );

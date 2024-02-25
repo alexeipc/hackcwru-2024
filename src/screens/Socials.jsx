@@ -12,7 +12,7 @@ import { collection, addDoc } from "firebase/firestore";
 
 const db = FIREBASE_DB;
 
-export default function Explore() {
+export default function Socials() {
     return(
         <View>
             <Button title="hjfha;sli"></Button>
