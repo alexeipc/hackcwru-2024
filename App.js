@@ -13,6 +13,7 @@ import Profile from "./src/screens/Profile"
 import Explore from "./src/screens/Explore"
 import Socials from "./src/screens/Socials"
 import Feed from "./src/screens/Feed"
+import Settings from "./src/screens/Settings"
 
 const OutsideStack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
@@ -35,6 +36,8 @@ function InsideLayout() {
           iconName = focused ? 'people-sharp' : 'people-outline';
         } else if(rn == "Feed") {
           iconName = focused ? 'document-text-sharp' : 'document-text-outline';
+        } else if(rn == "Settings") {
+          iconName = focused ? 'settings' : 'settings-outline';
         }
 
         return <Ionicons name={iconName} size={size} color={color}/>
@@ -49,6 +52,7 @@ function InsideLayout() {
       <Tab.Screen name="Feed" component={Feed}/>
       <Tab.Screen name="Home" component={Profile}/>
       <Tab.Screen name="Socials" component={Socials}/>
+      <Tab.Screen name="Settings" component={Settings}/>
     </Tab.Navigator>
   )
 }
