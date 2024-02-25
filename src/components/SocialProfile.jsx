@@ -2,21 +2,22 @@ import { Text, View, StyleSheet, Image } from 'react-native'
 
 export default function SocialProfile(props) {
     const username = props.username;
-    let pfp = '../../assets/blank-profile.webp'
+    let img = require('../../assets/blank-profile.webp')
     const dateJoined = props.dateJoined;
     const orgs = props.organizations;
 
     if(props.profilePicture) {
-        pfp = props.profilePicture;
+        img = requireprops.profilePicture;
     }
+
+    // img = require(imgURL);
 
     return(
         <View style={styles.profileBox}>
-            <View>
-                <Image source={require('../../assets/blank-profile.webp')} style={{ height: 40,
-                                    width: 40, margin: 10
-                                }}/>
-                </View>
+            <View style={{justifyContent: 'center'}}>
+                <Image source={img}
+                    style={{ height: 50, width: 50, margin: 5, marginRight: 10}}/>
+            </View>
             <View>
                 <Text style={styles.heading}>{username}</Text>
                 <Text style={{marginRight: 60}}>Supports: {orgs[0]}, {orgs[1]}</Text>

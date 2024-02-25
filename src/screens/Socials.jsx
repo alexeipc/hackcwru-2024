@@ -4,14 +4,13 @@ import { Text, View, SafeAreaView, FlatList, StyleSheet } from "react-native";
 const test = [
     {
         username: 'Kaleb',
-        image: 'url',
+        profilePicture: 'https://media.newyorker.com/photos/59095bb86552fa0be682d9d0/master/pass/Monkey-Selfie.jpg',
         organizations: [
             'Malaria Consortium',
             'Red Cross'
         ],
         totalAmountDonated: 300,
         dateJoined: 'August 3, 2023',
-
     }, {
         username: 'Ye',
         image: 'url',

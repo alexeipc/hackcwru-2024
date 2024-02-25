@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Button, ScrollView, Text, View, FlatList, Image, Modal, Pressable, TextInput} from "react-native";
+import { ScrollView, Text, View, FlatList, Image, Modal, Pressable, TextInput} from "react-native";
 
 import Popup from '../components/Popup'
 

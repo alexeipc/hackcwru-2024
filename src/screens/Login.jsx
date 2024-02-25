@@ -93,6 +93,7 @@ const Login = ({ navigation }) => {
               <TextInput
                 placeholder='Enter your email address'
                 placeholderTextColor={COLORS.black}
+                autoCapitalize='none'
                 keyboardType='email-address'
                 onChangeText={setEmail}
                 style={{
@@ -125,6 +126,7 @@ const Login = ({ navigation }) => {
               placeholder='Enter your password'
               placeholderTextColor={COLORS.black}
               secureTextEntry={hidePassword}
+              autoCapitalize='none'
               onChangeText={setPassword}
               style={{
                 width: "100%"
