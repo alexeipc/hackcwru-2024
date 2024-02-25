@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { TextInput } from 'react-native'
 import { StyleSheet, Text, View, Image, Linking, TouchableOpacity, FlatList} from 'react-native'
 
 export default Explore = () => {
@@ -29,7 +30,8 @@ export default Explore = () => {
 
   return (
     <View style={styles.container}>
-
+        <TextInput style={styles.searchBar} placeholder={"Search..."}>
+        </TextInput>
       <View style={styles.body}>
         <FlatList
           contentContainerStyle={styles.flatListContent}
@@ -60,10 +62,21 @@ export default Explore = () => {
 }
 
 const styles = StyleSheet.create({
+    searchBar: {
+        fontSize: 16,
+        margin: 10,
+        width: '90%',
+        height: 40,
+        backgroundColor: 'white',
+        borderWidth: 0.5,
+        borderRadius: 10,
+        padding: 10
+      },
   container: {
     flex: 1,
     backgroundColor: '#FFFFFF',
-    width: '100%'
+    width: '100%',
+    alignItems: 'center'
   },
   header: {
     backgroundColor: '#20B2AA',
