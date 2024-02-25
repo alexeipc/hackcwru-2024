@@ -7,6 +7,7 @@ import COLORS from '../components/Colors'
 import Button from '../components/Button'
 
 import { FIREBASE_AUTH } from '../config/firebase';
+import { createUserWithEmailAndPassword } from '@firebase/auth';
 
 const Signup = ({ navigation }) => {
   const [email, setEmail] = useState('');
