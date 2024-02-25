@@ -1,5 +1,4 @@
-import Textbox from "../components/Textbox"
-import { Text, View, SafeAreaView, FlatList, StyleSheet } from "react-native";
+import { Button, Text, View, SafeAreaView, FlatList, StyleSheet } from "react-native";
 
 const test = [
     {
@@ -10,11 +9,16 @@ const test = [
     }
 ];
 
-export default function Feed() {
+export default function Settings() {
     return(
         <View style={styles.container}>
             <Text>Settings!</Text>
             <Text>There isn't much here but connecting the Plaid API</Text>
+
+            
+        <View style={{paddingTop: 30}}>
+          <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign Out"/>
+        </View>
         </View>
     )
 };

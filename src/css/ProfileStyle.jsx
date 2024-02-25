@@ -45,11 +45,11 @@ export default styles = StyleSheet.create({
     width: '90%',
   },
   organizationContainter: {
-    minHeight: '100%',
+    minHeight: 200,
     margin: 5,
     marginTop: 0,
     zIndex: -100,
-    overflow: 'hidden',
+    overflow: 'visible'
   },
   bankAndOrganizationBox: {
     padding: 30,

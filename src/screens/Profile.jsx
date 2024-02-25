@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
+import { Button, Text, View, ScrollView, Image, Modal, Pressable} from "react-native";
 
 import Popup from '../components/Popup'
 
@@ -255,11 +255,7 @@ export default Main = () => {
                 </View>
                 
             ))}
-            
         </ScrollView>
-        <View style={{paddingTop: 30}}>
-          <Button onPress={() => FIREBASE_AUTH.signOut()} title="Sign Out"/>
-        </View>
         
     </ScrollView>
   );
